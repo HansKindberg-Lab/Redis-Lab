@@ -1,0 +1,25 @@
+{
+	"profiles": {
+		"Kestrel": {
+			"applicationUrl": "https://localhost:5000",
+			"commandName": "Project",
+			"dotnetRunMessages": "true",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Local-Development-Kestrel",
+				"ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+			},
+			"launchBrowser": true
+		},
+		"Docker": {
+			"commandName": "Docker",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Local-Development-Docker",
+				"ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+			},
+			"launchBrowser": true,
+			"launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+			"publishAllPorts": true,
+			"useSSL": true
+		}
+	}
+}

@@ -1,0 +1,46 @@
+@model HomeViewModel
+<div class="card mb-3">
+	<div class="card-header">
+		<h1 class="h4 m-0 p-0">Redis-Lab</h1>
+	</div>
+	<div class="card-body">
+		<partial name="ValidationSummary" />
+		@if(Model.DeleteConfirmation)
+		{
+			<div class="alert alert-success">
+				Item deleted.
+			</div>
+		}
+		@if(Model.SaveConfirmation)
+		{
+			<div class="alert alert-success">
+				Item saved.
+			</div>
+		}
+		<partial for="Form" name="Form" />
+		@if(Model.Items.Any())
+		{
+			<h2 class="h5">Items</h2>
+			<ul class="list-group">
+				@foreach(var (key, value) in Model.Items)
+				{
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span>
+							<strong>@key: </strong>@value
+						</span>
+						<form asp-action="Delete" class="d-inline">
+							<input name="Key" type="hidden" value="@key" />
+							<button class="btn btn-danger p-0 pe-1 ps-1" title="Delete" type="submit">X</button>
+						</form>
+					</li>
+				}
+			</ul>
+		}
+		else
+		{
+			<div class="alert alert-info">
+				No items in Redis.
+			</div>
+		}
+	</div>
+</div>

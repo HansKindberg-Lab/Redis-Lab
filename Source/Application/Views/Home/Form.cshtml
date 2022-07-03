@@ -1,0 +1,14 @@
+@model Form
+<form asp-action="Save" method="post">
+	<div class="mb-3">
+		<label asp-for="Key">Key</label>
+		<input asp-for="Key" autofocus="autofocus" class="form-control" placeholder="Enter a key." />
+	</div>
+	<div class="mb-3">
+		<label asp-for="Value">Value</label>
+		<input asp-for="Value" class="form-control" placeholder="Enter a value." />
+	</div>
+	<div class="mb-3 text-end">
+		<button class="btn btn-primary" type="submit">Save</button>
+	</div>
+</form>
