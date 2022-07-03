@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Net;
+using System.Reflection;
 using Application.Models.ComponentModel;
+using Application.Models.Hosting.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 using StackExchange.Redis;
@@ -11,6 +13,17 @@ Log.Information($"Application starting at {DateTime.Now:o} ...");
 try
 {
 	var builder = WebApplication.CreateBuilder(args);
+
+	builder.Host.ConfigureAppConfiguration((hostBuilderContext, configurationBuilder) =>
+	{
+		// ReSharper disable InvertIf
+		if(hostBuilderContext.HostingEnvironment.IsLocalDevelopment() && hostBuilderContext.HostingEnvironment.ApplicationName is { Length: > 0 })
+		{
+			var assembly = Assembly.Load(new AssemblyName(hostBuilderContext.HostingEnvironment.ApplicationName));
+			configurationBuilder.AddUserSecrets(assembly, true, true);
+		}
+		// ReSharper restore InvertIf
+	});
 
 	builder.Host.UseSerilog((hostBuilderContext, serviceProvider, loggerConfiguration) =>
 	{
