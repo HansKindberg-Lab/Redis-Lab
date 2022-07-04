@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Net;
-using System.Reflection;
 using Application.Models.ComponentModel;
 using Application.Models.Hosting.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -17,10 +16,14 @@ try
 	builder.Host.ConfigureAppConfiguration((hostBuilderContext, configurationBuilder) =>
 	{
 		// ReSharper disable InvertIf
-		if(hostBuilderContext.HostingEnvironment.IsLocalDevelopment() && hostBuilderContext.HostingEnvironment.ApplicationName is { Length: > 0 })
+		if(hostBuilderContext.HostingEnvironment.IsLocalDevelopment())
 		{
-			var assembly = Assembly.Load(new AssemblyName(hostBuilderContext.HostingEnvironment.ApplicationName));
-			configurationBuilder.AddUserSecrets(assembly, true, true);
+			var last = configurationBuilder.Sources.Last();
+			configurationBuilder.Sources.Remove(last);
+
+			configurationBuilder.AddUserSecrets(typeof(Program).Assembly, true, true);
+
+			configurationBuilder.Sources.Add(last);
 		}
 		// ReSharper restore InvertIf
 	});
